@@ -1,63 +1,72 @@
-# Анализатор PCAP файлов для Wireguard
+# Wireguard PCAP Analyzer
 
-Wireguard PCAP Analyzer - это веб-приложение для анализа файлов формата PCAP с использованием Python, Flask и JavaScript.
+Wireguard PCAP Analyzer is a web application for analyzing PCAP files using Python, Flask, and JavaScript.
 
-## Установка
+## Installation
 
-1. Клонируйте репозиторий на свой локальный компьютер:
+1. Clone the repository to your local machine:
 
+    ```bash
+    git clone https://github.com/Abylkair/pcap-parser-wireguard-.git
     ```
-    git clone 
-    ```
 
-2. Установите зависимости Python с помощью `pip`:
+2. Install Python dependencies using `pip`:
 
-    ```
+    ```bash
     pip install -r requirements.txt
     ```
 
-## Использование
+3. Install Nmap (required for the project to run):
 
-1. Перейдите в каталог проекта:
+    - On Debian/Ubuntu:
 
-    ```
+        ```bash
+        sudo apt-get install nmap
+        ```
+
+    - On macOS using Homebrew:
+
+        ```bash
+        brew install nmap
+        ```
+
+    - On Windows, download and install from the [Nmap website](https://nmap.org/download.html).
+
+## Usage
+
+1. Navigate to the project directory:
+
+    ```bash
     cd wireguard-pcap-analyzer
     ```
 
-2. Запустите приложение Flask:
+2. Run the Flask application:
 
-    ```
+    ```bash
     python app.py
     ```
 
-3. Откройте веб-браузер и перейдите по адресу `http://127.0.0.1:5000/`, чтобы получить доступ к приложению.
+3. Open your web browser and go to `http://127.0.0.1:5000/` to access the application.
 
-## Функционал
+## Features
 
-- Загрузка PCAP файлов для анализа.
-- Просмотр подробной информации о каждом пакете в файле.
-- Выделение аномалий в пакетах, таких как необычные флаги.
+- Upload PCAP files for analysis.
+- View detailed information about each packet in the file.
+- Highlight anomalies in packets, such as unusual flags.
 
-## Структура каталогов
+## Directory Structure
 
-- `app.py`: Основной файл приложения Flask, содержащий обработчики маршрутов.
-- `static/`: Папка для статических ресурсов (JavaScript, CSS).
-- `templates/`: Папка с HTML шаблонами.
-- `requirements.txt`: Файл со списком зависимостей Python.
+- `app.py`: The main Flask application file containing route handlers.
+- `static/`: Directory for static resources (JavaScript, CSS).
+- `templates/`: Directory for HTML templates.
+- `requirements.txt`: File listing Python dependencies.
 
-## Зависимости
+## Dependencies
 
-- Flask: Микрофреймворк для веб-разработки на Python.
-- scapy: Библиотека для манипулирования пакетами в Python.
+- Flask: Microframework for web development in Python.
+- scapy: Library for packet manipulation in Python.
 
-## Разработчики
+## Developers
 
-- Abylkair Shaigaliyev: [Ссылка на профиль GitHub](https://github.com/abylkair)
+- Abylkair Shaigaliyev: [GitHub Profile](https://github.com/abylkair)
 
-## Вклад
-
-Вклад в проект приветствуется! Вы можете предлагать новые функции или исправления ошибок через pull request.
-
-## Лицензия
-
-Этот проект лицензируется под [лицензией AITU(ASTANA IT UNIVERSITY)](LICENSE).
