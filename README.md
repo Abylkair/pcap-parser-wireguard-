@@ -1,4 +1,4 @@
-# Wireguard PCAP Analyzer
+# Wireguard PCAP Parser
 
 Wireguard PCAP Analyzer is a web application for analyzing PCAP files using Python, Flask, and JavaScript.
 
