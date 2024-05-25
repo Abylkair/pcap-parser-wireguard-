@@ -4,55 +4,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WireGuard</title>
-    <link rel="stylesheet" href="/static/css/styles.css">
-    <script src="/static/js/scripts.js" defer></script>
+    <link rel="stylesheet" href="static/css/styles.css">
 </head>
 <body>
     <div class="container">
         <h1>WireGuard</h1>
         <form id="upload-form">
-            <label class="custom-file-upload">
-                <input type="file" name="file" accept=".pcap">
-                <span id="file-name">Choose File</span>
+            <label for="file-upload" class="custom-file-upload">
+                Choose File
             </label>
+            <input id="file-upload" type="file" name="file" />
+            <span id="file-name">No file chosen</span>
             <button type="submit" class="btn">Upload</button>
         </form>
+        <button id="clear-table" class="btn">Clear Table</button>
         <div id="result">
-            <table id="packet-table" style="display: none;">
+            <div id="attack-summary" style="display:none;"></div>
+            <table id="packet-table" style="display:none;">
                 <thead>
                     <tr>
                         <th>Network Type</th>
-                        <th>Ethernet Destination</th>
-                        <th>Ethernet Source</th>
+                        <th>Ethernet Dest</th>
+                        <th>Ethernet Src</th>
                         <th>IP Version</th>
-                        <th>IP Header Length</th>
+                        <th>IP IHL</th>
                         <th>IP TOS</th>
-                        <th>IP Length</th>
+                        <th>IP Len</th>
                         <th>IP ID</th>
                         <th>IP Flags</th>
-                        <th>IP Fragment</th>
+                        <th>IP Frag</th>
                         <th>IP TTL</th>
-                        <th>IP Protocol</th>
+                        <th>IP Proto</th>
                         <th>IP Checksum</th>
-                        <th>IP Source</th>
-                        <th>IP Destination</th>
-                        <th>TCP Source Port</th>
-                        <th>TCP Destination Port</th>
-                        <th>TCP Sequence Number</th>
-                        <th>TCP Acknowledgment</th>
-                        <th>TCP Data Offset</th>
+                        <th>IP Src</th>
+                        <th>IP Dest</th>
+                        <th>TCP Sport</th>
+                        <th>TCP Dport</th>
+                        <th>TCP Seq</th>
+                        <th>TCP Ack</th>
+                        <th>TCP Dataofs</th>
                         <th>TCP Reserved</th>
                         <th>TCP Flags</th>
                         <th>TCP Window</th>
                         <th>TCP Checksum</th>
-                        <th>TCP Urgent Pointer</th>
+                        <th>TCP Urgptr</th>
                         <th>TCP Options</th>
                     </tr>
                 </thead>
-                <tbody>
-                </tbody>
+                <tbody></tbody>
             </table>
         </div>
     </div>
+    <script src="static/js/scripts.js"></script>
 </body>
 </html>
