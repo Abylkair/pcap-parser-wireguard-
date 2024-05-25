@@ -1,78 +1,78 @@
-# WireGuard
+# WireGuard PCAP Parser
 
-WireGuard is a web application designed to analyze network traffic captured in PCAP files. The application allows users to upload PCAP files, analyze the network packets within them, and detect various types of network attacks. WireGuard uses Flask for the backend, Scapy for packet analysis, and a simple frontend built with HTML, CSS, and JavaScript.
+WireGuard PCAP Analyzer is a web application for analyzing PCAP files and detecting WiFi attacks using Python, Flask, and JavaScript.
 
-## Features
+## Installation
 
-- **Upload PCAP Files**: Users can upload PCAP files to the application for analysis.
-- **Detailed Packet Analysis**: The application parses the PCAP file and displays detailed information about each network packet.
-- **Attack Detection**: WireGuard can detect and report several types of network attacks, including:
-  - **Deauthentication Attack**: Identifies deauthentication packets and lists the MAC addresses involved.
-  - **ARP Spoofing**: Detects ARP spoofing attempts and lists the MAC addresses of the attackers.
-  - **Packet Sniffing**: Identifies potential sniffing activity based on broadcast traffic.
-  - **Replay Attack**: Detects replay attacks by identifying duplicate packets with the same sequence and acknowledgment numbers.
-  - **Evil Twin Attack**: Detects evil twin attacks by identifying duplicate SSIDs with different BSSIDs.
-- **Attack Summary**: A mini-table at the top of the results displays a summary of detected attacks.
-- **Clear Table**: A button to clear the table and attack summary.
+1. Clone the repository to your local machine:
 
-## Updates
+    ```bash
+    git clone https://github.com/Abylkair/pcap-parser-wireguard.git
+    ```
 
-### Added Attack Detection
+2. Install Python dependencies using `pip`:
 
-- **Deauthentication Attack**: Detects and lists MAC addresses involved in deauthentication attacks.
-- **ARP Spoofing**: Detects ARP spoofing and lists MAC addresses of attackers.
-- **Packet Sniffing**: Detects potential sniffing activity based on broadcast traffic and lists suspected attackers.
-- **Replay Attack**: Detects replay attacks by checking for duplicate packets with the same sequence and acknowledgment numbers.
-- **Evil Twin Attack**: Detects evil twin attacks by identifying duplicate SSIDs with different BSSIDs.
-
-### Updated Frontend
-
-- Added a button to clear the table and attack summary.
-- Display attack summary in a mini-table format above the packet details.
-
-### Updated Backend (`app.py`)
-
-- Added functions to detect the above-mentioned attacks.
-- Improved error handling and logging.
-
-### Updated JavaScript (`scripts.js`)
-
-- Added functionality to handle the "Clear Table" button.
-- Updated the form submission to display detailed packet information and attack summaries.
-
-## Usage
-
-1. **Install dependencies**:
     ```bash
     pip install -r requirements.txt
     ```
 
-2. **Run the Flask application**:
+3. Install Nmap (required for the project to run):
+
+    - On Debian/Ubuntu:
+
+        ```bash
+        sudo apt-get install nmap
+        ```
+
+    - On macOS using Homebrew:
+
+        ```bash
+        brew install nmap
+        ```
+
+    - On Windows, download and install from the [Nmap website](https://nmap.org/download.html).
+
+## Usage
+
+1. Navigate to the project directory:
+
+    ```bash
+    cd wireguard-pcap-analyzer
+    ```
+
+2. Run the Flask application:
+
     ```bash
     python app.py
     ```
 
-3. **Open your web browser** and navigate to `http://127.0.0.1:5000`.
+3. Open your web browser and go to `http://127.0.0.1:5000/` to access the application.
 
-4. **Upload a PCAP file** using the form.
+## Features
 
-5. **View the packet details and attack summary**.
+- Upload PCAP files for analysis.
+- View detailed information about each packet in the file.
+- Detect various WiFi attacks including:
+  - Deauthentication Attack
+  - ARP Spoofing
+  - Packet Sniffing
+  - Replay Attack
+  - Evil Twin Attack
+- Display attack summary in a mini-table format above the packet details.
+- Clear the table and attack summary with a button click.
 
-6. **Clear the table and attack summary** by clicking the "Clear Table" button.
+## Directory Structure
 
-## File Structure
-
-- `app.py`: The main Flask application file.
-- `templates/index.html`: The main HTML file.
-- `static/styles.css`: The CSS file for styling.
-- `static/scripts.js`: The JavaScript file for frontend logic.
-- `requirements.txt`: The list of dependencies.
+- `app.py`: The main Flask application file containing route handlers.
+- `static/`: Directory for static resources (JavaScript, CSS).
+- `templates/`: Directory for HTML templates.
+- `requirements.txt`: File listing Python dependencies.
 
 ## Dependencies
 
-- Flask==2.0.3
-- Scapy==2.4.5
+- Flask: Microframework for web development in Python.
+- Scapy: Library for packet manipulation in Python.
 
-## Author
+## Developer
 
-- Shaigaliyev Abylkair
+- Abylkair Shaigaliyev: [GitHub Profile](https://github.com/abylkair)
