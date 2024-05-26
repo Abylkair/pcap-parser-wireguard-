@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify
-from scapy.all import rdpcap, Ether, IP, TCP, Dot11, Dot3, ARP
+from scapy.all import rdpcap, Ether, IP, TCP, Dot11, Dot3, ARP, DNS, ICMP
 import logging
 
 app = Flask(__name__)
@@ -56,7 +56,6 @@ def detect_arp_spoofing(packets):
     return spoofing_detected, spoofing_details, list(attackers)
 
 def detect_packet_sniffing(packets):
-    # Логика для обнаружения подозрительных пакетов
     sniffing_detected = False
     sniffing_packets = []
     attackers = set()
@@ -70,7 +69,6 @@ def detect_packet_sniffing(packets):
     return sniffing_detected, sniffing_packets, list(attackers)
 
 def detect_replay_attack(packets):
-    # Логика для обнаружения атаки воспроизведения
     replay_detected = False
     replay_packets = []
     seen_packets = set()
@@ -87,7 +85,6 @@ def detect_replay_attack(packets):
     return replay_detected, replay_packets, []
 
 def detect_evil_twin(packets):
-    # Логика для обнаружения поддельных точек доступа
     evil_twin_detected = False
     evil_twin_packets = []
     attackers = set()
@@ -109,6 +106,66 @@ def detect_evil_twin(packets):
     
     return evil_twin_detected, evil_twin_packets, list(attackers)
 
+def detect_dns_tunneling(packets):
+    dns_tunneling_detected = False
+    tunneling_packets = []
+    attackers = set()
+
+    for packet in packets:
+        if packet.haslayer(DNS) and packet[DNS].qr == 0:  # DNS request
+            if len(packet[DNS].qd.qname) > 50:  # Suspiciously long domain name
+                dns_tunneling_detected = True
+                tunneling_packets.append(packet)
+                attackers.add(packet[IP].src)
+    
+    return dns_tunneling_detected, tunneling_packets, list(attackers)
+
+def detect_icmp_flood(packets):
+    icmp_flood_detected = False
+    icmp_packets = []
+    attackers = set()
+    icmp_count = {}
+
+    for packet in packets:
+        if packet.haslayer(ICMP):
+            src_ip = packet[IP].src
+            if src_ip in icmp_count:
+                icmp_count[src_ip] += 1
+            else:
+                icmp_count[src_ip] = 1
+            
+            if icmp_count[src_ip] > 100:  # Threshold for flood detection
+                icmp_flood_detected = True
+                icmp_packets.append(packet)
+                attackers.add(src_ip)
+    
+    return icmp_flood_detected, icmp_packets, list(attackers)
+
+def detect_port_scanning(packets):
+    port_scanning_detected = False
+    scanning_packets = []
+    attackers = set()
+    port_count = {}
+
+    for packet in packets:
+        if packet.haslayer(TCP):
+            src_ip = packet[IP].src
+            dst_port = packet[TCP].dport
+            if src_ip in port_count:
+                if dst_port in port_count[src_ip]:
+                    port_count[src_ip][dst_port] += 1
+                else:
+                    port_count[src_ip][dst_port] = 1
+            else:
+                port_count[src_ip] = {dst_port: 1}
+
+            if len(port_count[src_ip]) > 10:  # Threshold for port scan detection
+                port_scanning_detected = True
+                scanning_packets.append(packet)
+                attackers.add(src_ip)
+    
+    return port_scanning_detected, scanning_packets, list(attackers)
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -128,7 +185,7 @@ def parse_pcap():
                     'Ethernet': {
                         'dst': packet[Ether].dst if packet.haslayer(Ether) else '',
                         'src': packet[Ether].src if packet.haslayer(Ether) else '',
-                        'type': 'IPv4' if packet[Ether].type == 0x0800 else 'Unknown' if packet.haslayer(Ether) else ''
+                        'type': 'IPv4' if packet.haslayer(Ether) and packet[Ether].type == 0x0800 else 'Unknown'
                     }
                 }
                 if packet.haslayer(IP):
@@ -170,6 +227,9 @@ def parse_pcap():
             sniffing_detected, sniffing_packets, sniffing_attackers = detect_packet_sniffing(packets)
             replay_detected, replay_packets, replay_attackers = detect_replay_attack(packets)
             evil_twin_detected, evil_twin_packets, evil_twin_attackers = detect_evil_twin(packets)
+            dns_tunneling_detected, dns_tunneling_packets, dns_attackers = detect_dns_tunneling(packets)
+            icmp_flood_detected, icmp_flood_packets, icmp_attackers = detect_icmp_flood(packets)
+            port_scanning_detected, port_scanning_packets, port_attackers = detect_port_scanning(packets)
 
             attack_summary = {
                 'Deauthentication Attack': deauth_detected,
@@ -181,7 +241,13 @@ def parse_pcap():
                 'Replay Attack': replay_detected,
                 'Replay Attackers': replay_attackers,
                 'Evil Twin': evil_twin_detected,
-                'Evil Twin Attackers': evil_twin_attackers
+                'Evil Twin Attackers': evil_twin_attackers,
+                'DNS Tunneling': dns_tunneling_detected,
+                'DNS Attackers': dns_attackers,
+                'ICMP Flood': icmp_flood_detected,
+                'ICMP Attackers': icmp_attackers,
+                'Port Scanning': port_scanning_detected,
+                'Port Attackers': port_attackers
             }
 
             return jsonify({'packets': packet_data, 'attacks': attack_summary})

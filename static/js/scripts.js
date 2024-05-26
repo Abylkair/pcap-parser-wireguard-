@@ -72,11 +72,14 @@ document.getElementById('upload-form').addEventListener('submit', async function
             attackSummary.innerHTML = `<h3>Attack Summary</h3>
                                        <table>
                                            <tr><th>Attack Type</th><th>Attackers</th></tr>
-                                           <tr><td>Deauthentication Attack</td><td>${data.attacks['Deauth Attackers'].join(', ')}</td></tr>
-                                           <tr><td>ARP Spoofing</td><td>${data.attacks['ARP Attackers'].join(', ')}</td></tr>
-                                           <tr><td>Packet Sniffing</td><td>${data.attacks['Sniffing Attackers'].join(', ')}</td></tr>
-                                           <tr><td>Replay Attack</td><td>${data.attacks['Replay Attackers'].join(', ')}</td></tr>
-                                           <tr><td>Evil Twin</td><td>${data.attacks['Evil Twin Attackers'].join(', ')}</td></tr>
+                                           <tr><td>Deauthentication Attack</td><td>${data.attacks['Deauth Attackers'].join(', ') || 'Attack not detected'}</td></tr>
+                                           <tr><td>ARP Spoofing</td><td>${data.attacks['ARP Attackers'].join(', ') || 'Attack not detected'}</td></tr>
+                                           <tr><td>Packet Sniffing</td><td>${data.attacks['Sniffing Attackers'].join(', ') || 'Attack not detected'}</td></tr>
+                                           <tr><td>Replay Attack</td><td>${data.attacks['Replay Attackers'].join(', ') || 'Attack not detected'}</td></tr>
+                                           <tr><td>Evil Twin</td><td>${data.attacks['Evil Twin Attackers'].join(', ') || 'Attack not detected'}</td></tr>
+                                           <tr><td>DNS Tunneling</td><td>${data.attacks['DNS Attackers'].join(', ') || 'Attack not detected'}</td></tr>
+                                           <tr><td>ICMP Flood</td><td>${data.attacks['ICMP Attackers'].join(', ') || 'Attack not detected'}</td></tr>
+                                           <tr><td>Port Scanning</td><td>${data.attacks['Port Attackers'].join(', ') || 'Attack not detected'}</td></tr>
                                        </table>`;
             attackSummary.style.display = 'block';
 
